@@ -2,7 +2,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { User } from "../../models/User";
 import firebase from "firebase/app";
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
+import Layout from "../../components/Layout";
 
 type Query = {
   uid: string;
@@ -34,9 +35,15 @@ export default function UserShow() {
     loadUser();
   }, [query.uid]);
   return (
-    <>
-      <div>{user ? user.name : "ロード中…"}</div>
-      <Button colorScheme="blue">Button</Button>
-    </>
+    <Layout>
+      {user && (
+        <Box>
+          <Heading as="h4" size="lg">
+            {user.name}さんのページ
+          </Heading>
+          <Text>{user.name}さんに質問しよう！</Text>
+        </Box>
+      )}
+    </Layout>
   );
 }
