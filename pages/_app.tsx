@@ -1,11 +1,14 @@
 import { RecoilRoot } from "recoil";
+import { ChakraProvider } from "@chakra-ui/react";
 import "../lib/firebase";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
     <RecoilRoot>
-      <Component {...pageProps} />
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
     </RecoilRoot>
   );
 }

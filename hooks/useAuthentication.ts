@@ -8,6 +8,18 @@ const userState = atom<User>({
   default: null,
 });
 
+async function createUserIfNotFound(user: User) {
+  const userRef = firebase.firestore().collection("users").doc(user.uid);
+  const doc = await userRef.get();
+  if (doc.exists) {
+    return;
+  }
+
+  await userRef.set({
+    name: "taro" + new Date().getTime(),
+  });
+}
+
 export function useAuthentication() {
   const [user, setUser] = useRecoilState(userState);
 
@@ -15,7 +27,6 @@ export function useAuthentication() {
     if (user !== null) {
       return;
     }
-    console.log("Start useEffect");
     firebase
       .auth()
       .signInAnonymously()
@@ -26,11 +37,13 @@ export function useAuthentication() {
 
     firebase.auth().onAuthStateChanged(function (firebaseUser) {
       if (firebaseUser) {
-        console.log("Set user");
-        setUser({
+        const loginUser: User = {
           uid: firebaseUser.uid,
           isAnonymous: firebaseUser.isAnonymous,
-        });
+          name: "",
+        };
+        setUser(loginUser);
+        createUserIfNotFound(loginUser);
       } else {
         // User is signed out.
         setUser(null);
