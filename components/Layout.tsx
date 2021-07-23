@@ -1,4 +1,5 @@
 import { Button, Container, Heading, Flex } from "@chakra-ui/react";
+import { ToastContainer } from "react-toastify";
 
 export default function Layout({ children }) {
   return (
@@ -18,12 +19,13 @@ export default function Layout({ children }) {
           </Heading>
         </Flex>
         <Flex>
-          <Button colorScheme="white" outlineColor="blue">
+          <Button colorScheme="teal" variant="outline">
             Button
           </Button>
         </Flex>
       </Flex>
       <Container>{children}</Container>
+      <ToastContainer />
     </>
   );
 }
