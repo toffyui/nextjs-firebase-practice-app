@@ -89,9 +89,7 @@ export default function UserShow() {
             </FormControl>
             <Center my={4}>
               {isSending ? (
-                <Button isLoading colorScheme="teal" variant="solid">
-                  Email
-                </Button>
+                <Button isLoading colorScheme="teal" variant="solid"></Button>
               ) : (
                 <Button colorScheme="teal" type="submit">
                   送信する
