@@ -61,17 +61,13 @@ export default function QuestionsShow() {
 
     const gotAnswer = answerSnapshot.docs[0].data() as Answer;
     gotAnswer.id = answerSnapshot.docs[0].id;
-    const now = new Date().getTime();
-    setAnswer({
-      id: "",
-      uid: user.uid,
-      questionId: question.id,
-      body,
-      createdAt: new firebase.firestore.Timestamp(now / 1000, now % 1000),
-    });
+    setAnswer(gotAnswer);
   }
 
   useEffect(() => {
+    if (user === null) {
+      return;
+    }
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.id]);
@@ -90,6 +86,18 @@ export default function QuestionsShow() {
       t.update(firebase.firestore().collection("questions").doc(question.id), {
         isReplied: true,
       });
+    });
+
+    setIsSending(false);
+    setBody("");
+
+    const now = new Date().getTime();
+    setAnswer({
+      id: "",
+      uid: user.uid,
+      questionId: question.id,
+      body,
+      createdAt: new firebase.firestore.Timestamp(now / 1000, now % 1000),
     });
   }
 
